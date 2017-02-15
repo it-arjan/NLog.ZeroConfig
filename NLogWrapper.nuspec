@@ -5,11 +5,12 @@
     <version>1.0.0</version>
     <authors>it-arjan</authors>
     <owners>it-arjan</owners>
+    <projectUrl>https://github.com/it-arjan/NLog.ZeroConfig</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>autolog NLogwrapper</description>
-    <releaseNotes>adding a readme</releaseNotes>
+    <description>Zero config wrapper for NLog, see readme</description>
+    <releaseNotes>Added project url</releaseNotes>
     <copyright>Free</copyright>
-    <tags>NLog ZeroConfig</tags>
+    <tags>NLog</tags>
     <dependencies>
       <dependency id="NLog" version="4.3.11" />
     </dependencies>
