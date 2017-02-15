@@ -7,8 +7,8 @@
     <owners>it-arjan</owners>
     <projectUrl>https://github.com/it-arjan/NLog.ZeroConfig</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Zero config wrapper for NLog, see readme</description>
-    <releaseNotes>Added project url</releaseNotes>
+    <description>Convence Zero config wrapper for NLog, DEV not PROD. See readme how to use</description>
+    <releaseNotes>Added git hub project url</releaseNotes>
     <copyright>Free</copyright>
     <tags>NLog</tags>
     <dependencies>
@@ -16,7 +16,7 @@
     </dependencies>
   </metadata>
   <files>
-  <file src="NLogWrapper\bin\Release\NLogWrapper.dll" target="lib"></file>
+  <file src="NLogWrapper\bin\Release\NLogWrapper.dll" target="lib\net40"></file>
   <file src="readme.txt" target=""></file>
   </files>
 </package>
