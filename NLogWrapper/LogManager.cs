@@ -1,16 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NLog;
 
 namespace NLogWrapper
 {
     public static class LogManager
     {
-        public static ILogger CreateLogger(Type T)
+        public enum ILogLevel { Debug, Info, Error, Trace };
+        public static NLogWrapper.ILogger CreateLogger(Type T, ILogLevel level, string fallbackPath=null)
         {
-            return new Logger(T);
+            //where to handle Nlog.LogLevel level
+            return new Logger(T, level, fallbackPath);
+        }
+        //old one
+        public static NLogWrapper.ILogger CreateLogger(Type T)
+        {
+            return new Logger(T, ILogLevel.Debug);
         }
     }
 }

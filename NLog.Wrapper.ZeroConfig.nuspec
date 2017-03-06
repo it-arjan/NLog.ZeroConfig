@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>NLog.Wrapper.ZeroConfig</id>
-    <version>1.0.0</version>
+    <version>1.1.2</version>
     <authors>it-arjan</authors>
     <owners>it-arjan</owners>
     <projectUrl>https://github.com/it-arjan/NLog.ZeroConfig</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Convence Zero config wrapper for NLog, DEV not PROD. See readme how to use</description>
-    <releaseNotes>Added git hub project url</releaseNotes>
+    <description>Convenient Zero config wrapper for NLog which logs in binfolder/logs or wwwroot/logs. Intended use is DEV not PROD. See readme how to use.</description>
+    <releaseNotes>Bugfixes + Config options: CreateLogger(Type T, ILogLevel level, string fallbackLogFolder=null). Default fallbackLogFolder changed to Path.GetTempfolder(). Existing code should continue to work but will use the changed default.</releaseNotes>
     <copyright>Free</copyright>
     <tags>NLog</tags>
     <dependencies>

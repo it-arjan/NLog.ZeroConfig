@@ -12,6 +12,7 @@ namespace NLogWrapper
         void Warn(string msg, params object[] args);
         void Error(string msg, params object[] args);
         void Debug(string msg, params object[] args);
+        void Trace(string msg, params object[] args);
         void LogFallback(string msg, params object[] args);
     }
 }
