@@ -5,10 +5,10 @@ namespace NLogWrapper
 {
     public static class LogManager
     {
-        public enum ILogLevel { Debug, Info, Error, Trace };
+        public enum ILogLevel { Off, Info, Error, Debug, Trace };
         public static NLogWrapper.ILogger CreateLogger(Type T, string logLevel, string fallbackPath=null)
         {
-            return new Logger(T, String2Enum(InitCap(logLevel)), fallbackPath);
+            return new Logger(T, String2Enum(logLevel), fallbackPath);
         }
         public static NLogWrapper.ILogger CreateLogger(Type T, ILogLevel logLevel, string fallbackPath = null)
         {
@@ -24,7 +24,7 @@ namespace NLogWrapper
         private static ILogLevel String2Enum(string value)
         {
             ILogLevel result = ILogLevel.Debug;
-            Enum.TryParse(value, out result);
+            Enum.TryParse(InitCap(value), out result);
             return result;
         }
         private static string InitCap(string s)

@@ -23,15 +23,21 @@ namespace NLogWrapper
 
         private string _callerClass ="NOTSET";
         private bool exceptionLogged = false;
+        private ILogLevel _logLevel;
 
         public Logger(Type T, ILogLevel level, string fallbackLogfolder = null)
         {
             _fallbackLogPath = Path.Combine(Path.GetTempPath(), _fallbackLogFileName);
+            _logLevel = level;
             _logger = NLog.LogManager.GetLogger(T.Name);
-            if (fallbackLogfolder != null)
+
+            if (_logLevel != ILogLevel.Off)
             {
-                if (GoodForLogging(fallbackLogfolder))
-                    _fallbackLogPath = Path.Combine(fallbackLogfolder, _fallbackLogFileName);
+                if (fallbackLogfolder != null)
+                {
+                    if (GoodForLogging(fallbackLogfolder))
+                        _fallbackLogPath = Path.Combine(fallbackLogfolder, _fallbackLogFileName);
+                }
             }
             _callerClass = T.Name;
             NLogConfigure(ILevel2NLogLevel(level));
@@ -46,6 +52,7 @@ namespace NLogWrapper
                 case ILogLevel.Debug: return LogLevel.Debug;
                 case ILogLevel.Info: return LogLevel.Info;
                 case ILogLevel.Error: return LogLevel.Error;
+                case ILogLevel.Off: return LogLevel.Off;
                 default: return LogLevel.Debug;
             }
         }
@@ -103,7 +110,7 @@ namespace NLogWrapper
                 var FilenamePrefix = GetProjectname(homeDir);
 
                 logdir = Path.Combine(homeDir, "logs");
-                if (!Directory.Exists(logdir)) Directory.CreateDirectory(logdir);
+                if (level != LogLevel.Off &&!Directory.Exists(logdir)) Directory.CreateDirectory(logdir);
 
                 logpath = Path.Combine(logdir, string.Format("{0}-${{shortdate}}.log", FilenamePrefix));
 
@@ -116,6 +123,7 @@ namespace NLogWrapper
                 var rule = new LoggingRule("*", level, fileTarget);
                 config.LoggingRules.Add(rule);
                 NLog.LogManager.Configuration = config;
+
                 NLog.LogManager.ThrowExceptions = true;
             }
             catch (Exception ex)
@@ -148,21 +156,24 @@ namespace NLogWrapper
 
         public void LogFallback(string msg, params object[] args)
         {
-            lock(_basicLockingTarget)
+            if (_logLevel != ILogLevel.Off)
             {
-                try
+                lock (_basicLockingTarget)
                 {
-                    var message = 
-                        (args != null && args.Any())
-                            ? string.Format(msg, ObjArrayToStringArray(args))
-                            : msg;
+                    try
+                    {
+                        var message =
+                            (args != null && args.Any())
+                                ? string.Format(msg, ObjArrayToStringArray(args))
+                                : msg;
 
-                    File.AppendAllLines(_fallbackLogPath, new string[] { message });
-                }
-                catch (Exception ex)
-                {
-                    string message = "LogFallback: Problem with message parameter substitution.\n" + ex.Message;
-                    File.AppendAllLines(_fallbackLogPath, new string[] { message, msg });
+                        File.AppendAllLines(_fallbackLogPath, new string[] { message });
+                    }
+                    catch (Exception ex)
+                    {
+                        string message = "LogFallback: Problem with message parameter substitution.\n" + ex.Message;
+                        File.AppendAllLines(_fallbackLogPath, new string[] { message, msg });
+                    }
                 }
             }
         }
@@ -183,7 +194,7 @@ namespace NLogWrapper
         {
             if (!exceptionLogged)
             {
-                LogFallback("Exception while logging! {0}", ex.Message);
+                LogFallback("Exception in the logging itself! {0}", ex.Message);
                 exceptionLogged = true;
             }
         }
