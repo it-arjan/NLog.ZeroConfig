@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace NLogWrapper
 {
+    public enum ILogLevel { Off, Info, Error, Debug, Trace };
     public interface ILogger
     {
+        void SetLevel(string level);
         void Info(string msg, params object[] args);
         void Warn(string msg, params object[] args);
         void Error(string msg, params object[] args);

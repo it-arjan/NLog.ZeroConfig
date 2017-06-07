@@ -7,7 +7,7 @@ This will work in Web & Windows ENV.
 The code is no big deal, AND PROBABLY NOT COMPLETE ;) https://github.com/it-arjan/NLog.ZeroConfig
 
 --------
--- Version 1.1.2 --
+-- Version 1.1.5 --
 ------------
 Usage example:
 
@@ -18,15 +18,17 @@ using NLogWrapper;
 // fallback log folder = Path.GetTempfolder()
 ILogger _logger = LogManager.CreateLogger(typeof(yourClass)); 
 
-// allows to set log level using a simple string, the casing does not matter
+// Create with specific log level
 ILogger _logger = LogManager.CreateLogger(typeof(yourClass), "Error")
 
+// since 1.1.5, set log level after creation, casing does not matter
+_logger.SetLevel("Error")
 
 // allows to set fallback log path
 ILogger _logger = LogManager.CreateLogger(typeof(yourClass), ILogLevel.Error, "logging-fallback-folder-must-exist")
 
 _logger.Debug("The focus is on {0} logging and on {1}", "RELIABLE", "convenience");
-_logger.Debug("a mistake in message parameter numbering will {1} throw an Exception but an error message in log file", "NOT");
+_logger.Debug("a mistake in message parameter numbering will NOT throw an Exception, but produces an error message in log file. {1}", "Like this");
 
 --------
 -- Version 1.0 --

@@ -25,10 +25,10 @@ namespace NLogWrapper
         private bool exceptionLogged = false;
         private ILogLevel _logLevel;
 
-        public Logger(Type T, ILogLevel level, string fallbackLogfolder = null)
+        public Logger(Type T, string level, string fallbackLogfolder = null)
         {
             _fallbackLogPath = Path.Combine(Path.GetTempPath(), _fallbackLogFileName);
-            _logLevel = level;
+            _logLevel = String2Enum(level);
             _logger = NLog.LogManager.GetLogger(T.Name);
 
             if (_logLevel != ILogLevel.Off)
@@ -40,7 +40,24 @@ namespace NLogWrapper
                 }
             }
             _callerClass = T.Name;
-            NLogConfigure(ILevel2NLogLevel(level));
+            NLogConfigure(ILevel2NLogLevel(_logLevel));
+        }
+
+        public static ILogLevel String2Enum(string value)
+        {
+            ILogLevel result = ILogLevel.Debug;
+            Enum.TryParse(InitCap(value), out result);
+            return result;
+        }
+        private static string InitCap(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            char[] a = s.ToCharArray();
+            a[0] = char.ToUpper(a[0]);
+            return new string(a);
         }
 
         private NLog.LogLevel ILevel2NLogLevel(ILogLevel level)
@@ -343,6 +360,11 @@ namespace NLogWrapper
                     Trace("Message parameter problem! " + msg);
                 }
             }
+        }
+
+        public void SetLevel(string level)
+        {
+            _logLevel = String2Enum(level);
         }
     }
 }

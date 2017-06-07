@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>NLog.Wrapper.ZeroConfig</id>
-    <version>1.1.4</version>
+    <version>1.1.5</version>
     <authors>it-arjan</authors>
     <owners>it-arjan</owners>
     <projectUrl>https://github.com/it-arjan/NLog.ZeroConfig</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Convenient Zero config wrapper for NLog. Auto-logs in binfolder/logs or wwwroot/logs. Intended use is DEV not PROD. See readme how to use.</description>
-    <releaseNotes>Added log level Off</releaseNotes>
+    <releaseNotes>Added SetLevel to ILogger interface</releaseNotes>
     <copyright>Free</copyright>
     <tags>NLog</tags>
     <dependencies>
