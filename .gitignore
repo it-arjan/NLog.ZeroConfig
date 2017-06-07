@@ -16,6 +16,7 @@ packages/
 *.cache
 *.user
 *.log
+*.nupkg
 
 # Config Files
 Web.config
